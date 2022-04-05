@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "fastapi-template"
+version = "0.1.0"
+description = "Template for fastapi projects"
+authors = ["Alisson Lopez <alisson.hdz.lopez@hotmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.75.1"
+uvicorn = "^0.17.6"
+python-dotenv = "^0.20.0"
+SQLAlchemy = "^1.4.34"
+alembic = "^1.7.7"
+SQLAlchemy-Utils = "^0.38.2"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+mypy = "^0.942"
+flake8 = "^4.0.1"
+autoflake = "^1.4"
+isort = "^5.10.1"
+SQLAlchemy = {extras = ["mypy"], version = "^1.4.34"}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
