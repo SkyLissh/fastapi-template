@@ -1,6 +1,6 @@
-from typing import Union
+from typing import Optional, Union
 
-from pydantic import BaseSettings, validator
+from pydantic import BaseSettings, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
@@ -15,7 +15,6 @@ class Settings(BaseSettings):
         "http://localhost",
     ]
 
-    @classmethod
     @validator("BAKCEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, list[str]]) -> Union[list[str], str]:
         if isinstance(v, str) and not v.startswith("["):
@@ -29,8 +28,28 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str = "PROJECT_NAME"
 
+    POSTGRES_HOST: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    SQLALCHEMY_DATABASE_URI: str
+
+    @validator("SQLALCHEMY_DATABASE_URI", pre=True)
+    def assemble_db_connection(cls, v: Optional[str], values: dict[str, str]) -> str:
+        if isinstance(v, str):
+            return v
+        return PostgresDsn.build(
+            scheme="postgresql",
+            user=values.get("POSTGRES_USER"),
+            password=values.get("POSTGRES_PASSWORD"),
+            host=values.get("POSTGRES_HOST"),
+            path=f"/{values.get('POSTGRES_DB')}",
+        )
+
     class Config:
         case_sensitive: bool = True
+        env_file: str = ".env"
+        env_file_encoding: str = "utf-8"
 
 
 settings = Settings()
