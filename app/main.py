@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import api
+from app.api.api_v1 import api
 from app.core.config import settings
 
 app = FastAPI(

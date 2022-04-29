@@ -15,6 +15,8 @@ class Base:
         DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp()
     )
 
+    __name__: str
+
     @declared_attr
     def __tablename__(cls) -> str:
         return cls.__name__.lower() + "s"

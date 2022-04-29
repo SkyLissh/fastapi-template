@@ -21,6 +21,28 @@ autoflake = "^1.4"
 isort = "^5.10.1"
 SQLAlchemy = {extras = ["mypy"], version = "^1.4.34"}
 
+[tool.black]
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.tox
+  | venv
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 90
+include_trailing_comma = true
+force_grid_wrap = 0
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

@@ -1,11 +1,12 @@
 from typing import Any, Generic, Optional, Type, TypeVar, Union
 from uuid import UUID
 
-from app.core.db.base_class import Base
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.orm import Session
+
+from app.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -72,7 +73,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         id: UUID,
         *,
         obj_in: Union[UpdateSchemaType, dict[str, Any]],
-    ) -> Optional[ModelType]:
+    ) -> None:
         """
         Update a record.
         **Parameters**
@@ -91,8 +92,6 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         )
         db.execute(update_query)
         db.commit()
-
-        return self.get(db, id)
 
     def delete(self, db: Session, *, id: UUID) -> None:
         """

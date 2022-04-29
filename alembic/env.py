@@ -20,7 +20,7 @@ from app.core.config import settings  # noqa
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.core.db.base import Base  # noqa
+from app.db.base import Base  # noqa
 
 target_metadata = Base.metadata
 
