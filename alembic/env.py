@@ -16,6 +16,9 @@ if config.config_file_name is not None:
 
 from app.core.config import settings  # noqa
 
+if not settings.SQLALCHEMY_DATABASE_URI:
+    raise Exception("SQLALCHEMY_DATABASE_URI must be set")
+
 config.set_main_option("sqlalchemy.url", settings.SQLALCHEMY_DATABASE_URI)
 
 # add your model's MetaData object here

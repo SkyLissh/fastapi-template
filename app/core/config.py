@@ -28,11 +28,12 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str = "PROJECT_NAME"
 
-    POSTGRES_HOST: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
-    SQLALCHEMY_DATABASE_URI: str
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_DB: str = "db"
+
+    SQLALCHEMY_DATABASE_URI: Optional[str] = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: dict[str, str]) -> str:
@@ -48,8 +49,6 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive: bool = True
-        env_file: str = ".env"
-        env_file_encoding: str = "utf-8"
 
 
 settings = Settings()

@@ -4,6 +4,7 @@ from uuid import UUID
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy import delete, insert, select, update
+from sqlalchemy.engine import CursorResult
 from sqlalchemy.orm import Session
 
 from app.db.base_class import Base
@@ -63,9 +64,17 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         obj_in_data = jsonable_encoder(obj_in)
         result = db.execute(insert(self.model).values(**obj_in_data))
-        db.commit()
 
-        return self.get(db, result.inserted_primary_key[0])  # type: ignore
+        if not isinstance(result, CursorResult):
+            raise Exception("Could not insert record")
+
+        db.commit()
+        data = self.get(db, result.inserted_primary_key[0])
+
+        if not data:
+            raise Exception("Could not get inserted record")
+
+        return data
 
     def update(
         self,

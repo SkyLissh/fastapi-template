@@ -11,10 +11,8 @@ from sqlalchemy_utils import UUIDType
 @as_declarative()
 class Base:
     id: UUID = Column(UUIDType(), primary_key=True, default=uuid4())
-    created_at: datetime = Column(DateTime, server_default=func.now())
-    update_at: datetime = Column(
-        DateTime, server_default=func.now(), onupdate=func.now()
-    )
+    created_at: datetime = Column(DateTime, default=func.now())
+    updated_at: datetime = Column(DateTime, default=func.now(), onupdate=func.now())
 
     __name__: str
 
