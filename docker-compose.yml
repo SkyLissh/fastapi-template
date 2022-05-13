@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  app:
+    image: "app:dev"
+    container_name: "app"
+    restart: unless-stopped
+    depends_on:
+      - db
+    build:
+      target: development
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: sh ./start.sh
+    env_file:
+      - .env
+
+  db:
+    image: postgres:14-alpine
+    container_name: app_db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
