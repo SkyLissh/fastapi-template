@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.engine import CursorResult
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.base_class import Base
 
@@ -24,7 +24,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
-    def get(self, db: Session, id: UUID) -> Optional[ModelType]:
+    async def get(self, db: AsyncSession, id: UUID) -> Optional[ModelType]:
         """
         Get a single record by id.
         **Parameters**
@@ -34,11 +34,13 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         * A single record
         #"""
         select_query = select([self.model]).where(self.model.id == id)
-        return db.execute(select_query).scalar()
+        result = await db.execute(select_query)
 
-    def get_all(
+        return result.scalar()
+
+    async def get_all(
         self,
-        db: Session,
+        db: AsyncSession,
         *,
         skip: int = 0,
         limit: int = 100,
@@ -51,9 +53,11 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         * A list of records
         """
         select_query = select([self.model]).offset(skip).limit(limit)
-        return db.execute(select_query).scalars().all()
+        result = await db.execute(select_query)
 
-    def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+        return result.scalars().all()
+
+    async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
         """
         Create a new record.
         **Parameters**
@@ -63,22 +67,22 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         * A new record
         """
         obj_in_data = jsonable_encoder(obj_in)
-        result = db.execute(insert(self.model).values(**obj_in_data))
+        result = await db.execute(insert(self.model).values(**obj_in_data))
 
         if not isinstance(result, CursorResult):
             raise Exception("Could not insert record")
 
-        db.commit()
-        data = self.get(db, result.inserted_primary_key[0])
+        await db.commit()
+        data = await self.get(db, result.inserted_primary_key[0])
 
         if not data:
             raise Exception("Could not get inserted record")
 
         return data
 
-    def update(
+    async def update(
         self,
-        db: Session,
+        db: AsyncSession,
         id: UUID,
         *,
         obj_in: Union[UpdateSchemaType, dict[str, Any]],
@@ -99,10 +103,10 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         update_query = (
             update(self.model).where(self.model.id == id).values(**update_data)
         )
-        db.execute(update_query)
-        db.commit()
+        await db.execute(update_query)
+        await db.commit()
 
-    def delete(self, db: Session, *, id: UUID) -> None:
+    async def delete(self, db: AsyncSession, *, id: UUID) -> None:
         """
         Delete a record.
         **Parameters**
@@ -110,5 +114,5 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         * `id`: Record id
         """
         delete_query = delete(self.model).where(self.model.id == id)
-        db.execute(delete_query)
-        db.commit()
+        await db.execute(delete_query)
+        await db.commit()

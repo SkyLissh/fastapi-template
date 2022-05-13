@@ -20,8 +20,7 @@ FROM python-base as builder
 # System packages
 RUN apt update && apt upgrade -y && apt install --no-install-recommends -y \
   build-essential \
-  curl \
-  libpq-dev
+  curl
 
 # Poetry installation
 RUN curl -sSL "https://install.python-poetry.org" | python -

@@ -12,7 +12,7 @@ python-dotenv = "^0.20.0"
 SQLAlchemy = "^1.4.34"
 alembic = "^1.7.7"
 SQLAlchemy-Utils = "^0.38.2"
-psycopg2 = "^2.9.3"
+asyncpg = "^0.25.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
