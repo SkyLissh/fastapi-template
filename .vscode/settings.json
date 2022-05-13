@@ -1,8 +1,17 @@
 {
+	"python.defaultInterpreterPath": "python",
+
 	"python.linting.mypyEnabled": true,
 	"python.linting.flake8Enabled": true,
 	"python.linting.pylintEnabled": false,
 
 	"python.formatting.provider": "black",
-	"python.sortImports.path": "isort"
+	"python.sortImports.path": "isort",
+
+	"python.analysis.typeCheckingMode": "off",
+
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": true
+	}
 }
