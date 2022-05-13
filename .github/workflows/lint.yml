@@ -1,0 +1,38 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Setup poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.13
+
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+      - name: Run Linters
+        uses: wearerequired/lint-action@v2
+        with:
+          flake8: true
+          mypy: true
+          black: true
