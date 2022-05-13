@@ -39,13 +39,18 @@ class Settings(BaseSettings):
     def assemble_db_connection(cls, v: Optional[str], values: dict[str, str]) -> str:
         if isinstance(v, str):
             return v
-        return PostgresDsn.build(
+        dsn = PostgresDsn.build(
             scheme="postgresql",
             user=values.get("POSTGRES_USER"),
             password=values.get("POSTGRES_PASSWORD"),
             host=values.get("POSTGRES_HOST"),
             path=f"/{values.get('POSTGRES_DB')}",
         )
+
+        if not isinstance(dsn, str):
+            raise ValueError(f"Failed to build DB connection string: {dsn}")
+
+        return dsn
 
     class Config:
         case_sensitive: bool = True
