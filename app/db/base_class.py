@@ -2,15 +2,15 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import Column, DateTime
+from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import as_declarative
 from sqlalchemy.sql import func
-from sqlalchemy_utils import UUIDType
 
 
 @as_declarative()
 class Base:
-    id: UUID = Column(UUIDType(), primary_key=True, default=uuid4())
+    id: UUID = Column(PGUUID(as_uuid=True), primary_key=True, default=uuid4)
     created_at: datetime = Column(DateTime, default=func.now())
     updated_at: datetime = Column(DateTime, default=func.now(), onupdate=func.now())
 
