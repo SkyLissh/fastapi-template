@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    image: "app:dev"
-    container_name: "app"
+    image: "restapi:dev"
+    container_name: "restapi"
     restart: unless-stopped
     depends_on:
       - db
@@ -14,14 +14,14 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
-    command: sh ./start.sh
+      - .:/rest
+    command: sh ./scripts/start-dev.sh
     env_file:
       - .env
 
   db:
     image: postgres:14-alpine
-    container_name: app_db
+    container_name: "restapi_db"
     restart: unless-stopped
     ports:
       - "5432:5432"
