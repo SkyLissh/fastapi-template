@@ -20,6 +20,7 @@ flake8 = "^4.0.1"
 autoflake = "^1.4"
 isort = "^5.10.1"
 SQLAlchemy = {extras = ["mypy"], version = "^1.4.37"}
+pytest = "^7.1.2"
 
 [tool.black]
 exclude = '''
