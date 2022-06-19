@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 from pydantic import BaseSettings, PostgresDsn, validator
 
 
@@ -16,7 +14,7 @@ class Settings(BaseSettings):
     ]
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
-    def assemble_cors_origins(cls, v: Union[str, list[str]]) -> Union[list[str], str]:
+    def assemble_cors_origins(cls, v: str | list[str]) -> list[str] | str:
         if isinstance(v, str) and not v.startswith("["):
             return [i.strip() for i in v.split(",")]
         elif isinstance(v, (list, str)):
@@ -33,10 +31,10 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB: str = "db"
 
-    SQLALCHEMY_DATABASE_URI: Optional[str] = None
+    SQLALCHEMY_DATABASE_URI: str | None = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: Optional[str], values: dict[str, str]) -> str:
+    def assemble_db_connection(cls, v: str | None, values: dict[str, str]) -> str:
         if isinstance(v, str):
             return v
         dsn = PostgresDsn.build(

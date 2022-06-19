@@ -1,4 +1,4 @@
-from typing import Any, Generic, Optional, Type, TypeVar, Union, cast
+from typing import Generic, Type, TypeVar, cast
 from uuid import UUID
 
 from fastapi.encoders import jsonable_encoder
@@ -24,7 +24,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
-    async def get(self, db: AsyncSession, id: UUID) -> Optional[ModelType]:
+    async def get(self, db: AsyncSession, id: UUID) -> ModelType | None:
         """
         Get a single record by id.
         **Parameters**
@@ -36,7 +36,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         select_query = select([self.model]).where(self.model.id == id)
         result = await db.execute(select_query)
 
-        return cast(Optional[ModelType], result.scalar())
+        return cast(ModelType | None, result.scalar())
 
     async def get_all(
         self,
@@ -81,11 +81,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return data
 
     async def update(
-        self,
-        db: AsyncSession,
-        id: UUID,
-        *,
-        obj_in: Union[UpdateSchemaType, dict[str, Any]],
+        self, db: AsyncSession, id: UUID, *, obj_in: UpdateSchemaType
     ) -> None:
         """
         Update a record.
@@ -96,9 +92,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         **Returns**
         * `returns` A new record
         """
-        update_data = (
-            obj_in if isinstance(obj_in, dict) else obj_in.dict(exclude_unset=True)
-        )
+        update_data = obj_in.dict(exclude_unset=True)
 
         update_query = (
             update(self.model).where(self.model.id == id).values(**update_data)

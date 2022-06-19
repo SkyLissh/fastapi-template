@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "fastapi-template"
+name = "async-fastapi-template"
 version = "0.1.0"
 description = "Template for fastapi projects"
 authors = ["Alisson Lopez <alisson.hdz.lopez@hotmail.com>"]
