@@ -1,4 +1,4 @@
-from typing import Any, Generic, Optional, Type, TypeVar, Union
+from typing import Any, Generic, Optional, Type, TypeVar, Union, cast
 from uuid import UUID
 
 from fastapi.encoders import jsonable_encoder
@@ -36,7 +36,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         select_query = select([self.model]).where(self.model.id == id)
         result = await db.execute(select_query)
 
-        return result.scalar()
+        return cast(Optional[ModelType], result.scalar())
 
     async def get_all(
         self,

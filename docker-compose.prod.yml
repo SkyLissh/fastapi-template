@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    image: "app:latest"
-    container_name: "app"
+    image: "restapi:latest"
+    container_name: "restapi"
     restart: always
     depends_on:
       - db
@@ -12,12 +12,18 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    volumes:
-      - .:/app
-    command: sh ./prod-start.sh
+      - "8000:8000"
+    command: sh ./scripts/start-prod.sh
     env_file:
       - .env
 
   db:
+    image: "postgres:14-alpine"
     restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  - pgdata:
