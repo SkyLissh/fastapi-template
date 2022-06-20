@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    image: "restapi:dev"
-    container_name: "restapi"
+    image: "{{ cookiecutter.project_slug }}:dev"
+    container_name: "{{ cookiecutter.project_slug }}"
     restart: unless-stopped
     depends_on:
       - db
@@ -14,14 +14,14 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/rest
+      - .:/{{ cookiecutter.project_slug }}
     command: sh ./scripts/start-dev.sh
     env_file:
       - .env
 
   db:
     image: postgres:14-alpine
-    container_name: "restapi_db"
+    container_name: "{{ cookiecutter.project_slug }}_db"
     restart: unless-stopped
     ports:
       - "5432:5432"

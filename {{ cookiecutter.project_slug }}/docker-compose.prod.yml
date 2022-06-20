@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    image: "restapi:latest"
-    container_name: "restapi"
+    image: "{{ cookiecutter.project_slug }}:latest"
+    container_name: "{{ cookiecutter.project_slug }}"
     restart: always
     depends_on:
       - db
@@ -19,6 +19,7 @@ services:
 
   db:
     image: "postgres:14-alpine"
+    container_name: "{{ cookiecutter.project_slug }}_db"
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data

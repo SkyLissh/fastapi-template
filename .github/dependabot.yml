@@ -1,16 +1,16 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/{{ cookiecutter.project_slug }}"
     schedule:
       interval: "daily"
-      
+
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/{{ cookiecutter.project_slug }}"
     schedule:
       interval: "daily"
-      
+
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: "/{{ cookiecutter.project_slug }}"
     schedule:
       interval: "daily"

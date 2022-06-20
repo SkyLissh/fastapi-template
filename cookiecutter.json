@@ -1,0 +1,7 @@
+{
+	"project_name": "FastAPI Template",
+	"project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+	"project_description": "FastAPI template that use asyncio with SQLAlchemy",
+	"full_name": "Alisson Lopez",
+	"email": "alisson.hdz.lopez@hotmail.com"
+}
