@@ -7,7 +7,7 @@ authors = ["Alisson Lopez <alisson.hdz.lopez@hotmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.78.0"
-uvicorn = "^0.17.6"
+uvicorn = "^0.18.1"
 python-dotenv = "^0.20.0"
 SQLAlchemy = "^1.4.37"
 alembic = "^1.7.7"
