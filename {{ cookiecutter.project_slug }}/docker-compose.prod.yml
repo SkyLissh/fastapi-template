@@ -19,7 +19,7 @@ services:
 
   db:
     image: "postgres:14-alpine"
-    container_name: "{{ cookiecutter.project_slug }}_db"
+    container_name: "{{ cookiecutter.project_slug }}-db"
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data

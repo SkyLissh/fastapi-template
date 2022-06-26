@@ -21,7 +21,7 @@ services:
 
   db:
     image: postgres:14-alpine
-    container_name: "{{ cookiecutter.project_slug }}_db"
+    container_name: "{{ cookiecutter.project_slug }}-db"
     restart: unless-stopped
     ports:
       - "5432:5432"
