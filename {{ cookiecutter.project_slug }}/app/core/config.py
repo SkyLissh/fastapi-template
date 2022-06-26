@@ -24,12 +24,12 @@ class Settings(BaseSettings):
             f"BACKEND_CORS_ORIGINS must be a string or list of strings, got {type(v)}"
         )
 
-    PROJECT_NAME: str = "PROJECT_NAME"
+    PROJECT_NAME: str = "{{ cookiecutter.project_name }}"
 
-    POSTGRES_HOST: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "db"
+    POSTGRES_HOST: str | None
+    POSTGRES_USER: str | None
+    POSTGRES_PASSWORD: str | None
+    POSTGRES_DB: str | None
 
     SQLALCHEMY_DATABASE_URI: str | None = None
 
@@ -52,6 +52,8 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive: bool = True
+        env_file: str = ".env"
+        env_file_encoding: str = "utf-8"
 
 
 settings = Settings()
