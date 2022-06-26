@@ -13,9 +13,9 @@ ENV POETRY_VERSION=1.1.13 \
   PYSETUP_PATH="/opt/pysetup" \
   VENV_PATH="/opt/pysetup/.venv" \
   # Dockerize version
-  DOCKERIZE_VERSION="0.6.1" \
+  DOCKERIZE_VERSION="v0.6.1" \
   # Tini for Docker
-  TINI_VERSION="0.19.0"
+  TINI_VERSION="v0.19.0"
 
 
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
@@ -39,7 +39,7 @@ RUN poetry install --no-dev
 
 # Dockerize Installation
 RUN wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
-  && tar -C /urs/local/bin -xzf "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
+  && tar -C /usr/local/bin -xzf "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
   && rm "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
   && dockerize --version
 
@@ -52,7 +52,7 @@ RUN wget -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/downlo
 # === Base Image ===
 FROM python-base as base
 
-COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
+COPY --from=builder $POETRY_HOME $POETRY_HOME
 
 COPY --from=builder /usr/local/bin/dockerize /usr/local/bin/dockerize
 COPY --from=builder /usr/local/bin/tini /usr/local/bin/tini
