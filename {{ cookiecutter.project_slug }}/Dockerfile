@@ -52,7 +52,7 @@ RUN wget -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/downlo
 # === Base Image ===
 FROM python-base as base
 
-COPY --from=builder $POETRY_HOME $POETRY_HOME
+COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 
 COPY --from=builder /usr/local/bin/dockerize /usr/local/bin/dockerize
 COPY --from=builder /usr/local/bin/tini /usr/local/bin/tini
@@ -64,7 +64,7 @@ RUN chmod +x /docker-entrypoint.sh
 # === Development Image ===
 FROM base as development
 
-COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
+COPY --from=builder $POETRY_HOME $POETRY_HOME
 
 WORKDIR $PYSETUP_PATH
 RUN poetry install
@@ -81,7 +81,7 @@ WORKDIR /{{ cookiecutter.project_slug }}
 
 # Setup Permissions
 RUN groupadd -r fastapi && useradd -d /fastapi -r -g fastapi fastapi \
-  && chmod fastapi:fastapi -R /{{ cookiecutter.project_slug }}
+  && chown fastapi:fastapi -R /{{ cookiecutter.project_slug }}
 
 COPY --chown=fastapi:fastapi . /{{ cookiecutter.project_slug }}/
 
