@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str | None
     POSTGRES_PASSWORD: str | None
     POSTGRES_DB: str | None
+    POSTGRES_PORT: int | None
 
     SQLALCHEMY_DATABASE_URI: str | None = None
 
@@ -43,6 +44,7 @@ class Settings(BaseSettings):
             password=values.get("POSTGRES_PASSWORD"),
             host=values.get("POSTGRES_HOST"),
             path=f"/{values.get('POSTGRES_DB')}",
+            port=f"{values.get('POSTGRES_PORT')}",
         )
 
         if not isinstance(dsn, str):
