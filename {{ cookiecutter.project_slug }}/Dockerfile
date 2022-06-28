@@ -88,3 +88,5 @@ COPY --chown=fastapi:fastapi . /{{ cookiecutter.project_slug }}/
 USER fastapi
 
 ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
+
+CMD [ "sh", "./scripts/start-prod.sh" ]
