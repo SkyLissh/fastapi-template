@@ -14,6 +14,6 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
     """
 
     async with AsyncClient(
-        app=app, base_url=f"http://test/{settings.API_VERSION}"
+        app=app, base_url=f"http://test{settings.API_VERSION}"
     ) as client:
         yield client
