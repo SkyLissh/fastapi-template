@@ -9,7 +9,7 @@ python = "^3.9"
 fastapi = "^0.78.0"
 uvicorn = "^0.17.6"
 python-dotenv = "^0.20.0"
-SQLAlchemy = "^1.4.37"
+SQLAlchemy = "^1.4.39"
 alembic = "^1.7.7"
 psycopg2 = "^2.9.3"
 
@@ -19,7 +19,7 @@ mypy = "^0.961"
 flake8 = "^4.0.1"
 autoflake = "^1.4"
 isort = "^5.10.1"
-SQLAlchemy = {extras = ["mypy"], version = "^1.4.37"}
+SQLAlchemy = {extras = ["mypy"], version = "^1.4.39"}
 pytest = "^7.1.2"
 
 [tool.black]
