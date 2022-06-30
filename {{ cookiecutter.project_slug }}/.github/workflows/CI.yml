@@ -1,4 +1,4 @@
-name: Lint
+name: CI
 
 on:
   push:
@@ -36,3 +36,6 @@ jobs:
           flake8: true
           mypy: true
           black: true
+
+      - name: Run tests
+        run: pytest
