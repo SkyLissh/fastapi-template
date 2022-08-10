@@ -6,7 +6,7 @@ authors = ["{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.78.0"
+fastapi = "^0.79.0"
 uvicorn = "^0.18.1"
 gunicorn = "^20.1.0"
 python-dotenv = "^0.20.0"
