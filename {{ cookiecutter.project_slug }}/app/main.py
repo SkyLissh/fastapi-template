@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import ORJSONResponse
 
 from app.api.api_v1 import api
 from app.core.config import settings
 
 app = FastAPI(
-    title=settings.PROJECT_NAME, openapi_url=f"{settings.API_VERSION}/openapi.json"
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_VERSION}/openapi.json",
+    default_response_class=ORJSONResponse,
 )
 
 if settings.BACKEND_CORS_ORIGINS:
