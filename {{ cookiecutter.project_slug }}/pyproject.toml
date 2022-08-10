@@ -19,7 +19,7 @@ tabulate = "^0.8.10"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
-mypy = "^0.961"
+mypy = "^0.971"
 flake8 = "^4.0.1"
 autoflake = "^1.4"
 isort = "^5.10.1"
