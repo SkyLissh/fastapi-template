@@ -17,7 +17,7 @@ cores = multiprocessing.cpu_count()
 default_workers = cores * workers_per_core
 workers = min(max_workers, default_workers) if max_workers else default_workers
 
-loglevel = os.getenv("LOG_LEVEL", "info")
+loglevel = os.getenv("LOG_LEVEL", "error")
 accesslog_var = os.getenv("ACCESS_LOG", "-")
 accesslog = accesslog_var or None
 errorlog_var = os.getenv("ERROR_LOG", "-")
