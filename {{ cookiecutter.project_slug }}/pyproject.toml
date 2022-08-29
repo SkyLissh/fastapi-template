@@ -14,7 +14,7 @@ alembic = "^1.8.1"
 SQLAlchemy = "^1.4.40"
 asyncpg = "^0.26.0"
 httpx = "^0.23.0"
-orjson = "^3.7.12"
+orjson = "^3.8.0"
 tabulate = "^0.8.10"
 
 [tool.poetry.dev-dependencies]
