@@ -9,7 +9,7 @@ python = "^3.10"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
 fastapi = "^0.87.0"
 gunicorn = "^20.1.0"
-python-dotenv = "^0.21.0"
+python-dotenv = "^1.0.0"
 alembic = "^1.8.1"
 SQLAlchemy = "^1.4.44"
 asyncpg = "^0.27.0"
