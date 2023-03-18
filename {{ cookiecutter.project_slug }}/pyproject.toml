@@ -1,31 +1,31 @@
 [tool.poetry]
-name = "{{ cookiecutter.project_name }}"
+name = "todo-api"
 version = "0.1.0"
-description = "{{ cookiecutter.project_description }}"
-authors = ["{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"]
+description = "A short description"
+authors = ["Alisson Lopez <alisson.hdz.lopez@hotmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-uvicorn = {extras = ["standard"], version = "^0.20.0"}
-fastapi = "^0.87.0"
+python = "^3.11"
+uvicorn = {extras = ["standard"], version = "^0.21.1"}
+fastapi = "^0.94.1"
 gunicorn = "^20.1.0"
-python-dotenv = "^0.21.0"
-alembic = "^1.8.1"
-SQLAlchemy = "^1.4.44"
+python-dotenv = "^1.0.0"
+alembic = "^1.10.2"
+SQLAlchemy = "^2.0.6"
 asyncpg = "^0.27.0"
-httpx = "^0.23.1"
-orjson = "^3.8.2"
+httpx = "^0.23.3"
+orjson = "^3.8.7"
 tabulate = "^0.9.0"
+pydantic = "^1.10.6"
 
 [tool.poetry.dev-dependencies]
-black = "^22.10.0"
-mypy = "^0.991"
+black = "^23.1.0"
+mypy = "^1.1.1"
 flake8 = "^6.0.0"
 autoflake = "^2.0"
-isort = "^5.10.1"
-SQLAlchemy = {extras = ["mypy"], version = "^1.4.44"}
-pytest = "^7.2.0"
-pytest-asyncio = "^0.20.2"
+isort = "^5.12.0"
+pytest = "^7.2.2"
+pytest-asyncio = "^0.20.3"
 types-tabulate = "^0.9.0"
 
 [tool.black]

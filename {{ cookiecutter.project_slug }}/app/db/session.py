@@ -1,16 +1,13 @@
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
-
 from app.core.config import settings
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 if not settings.SQLALCHEMY_DATABASE_URI:
     raise Exception("SQLALCHEMY_DATABASE_URI must be set")
 
 engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URI, echo=True, future=True)
-SessionLocal = sessionmaker(
+SessionLocal = async_sessionmaker(
     engine,
     autocommit=False,
     autoflush=False,
-    class_=AsyncSession,
     expire_on_commit=False,
 )

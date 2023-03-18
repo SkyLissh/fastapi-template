@@ -1,6 +1,6 @@
 FROM python:3.11.2-slim as python-base
 
-ENV POETRY_VERSION=1.1.13 \
+ENV POETRY_VERSION=1.4.0 \
   POETRY_NO_INTERACTION=1 \
   POETRY_HOME="/opt/poetry" \
   # Make poetry create virtualenvs in the project root
@@ -69,7 +69,7 @@ COPY --from=builder $POETRY_HOME $POETRY_HOME
 WORKDIR $PYSETUP_PATH
 RUN poetry install
 
-WORKDIR /{{ cookiecutter.project_slug }}
+WORKDIR /todo-api
 
 ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
 
@@ -77,13 +77,13 @@ ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
 # === Production Image ===
 FROM base as production
 
-WORKDIR /{{ cookiecutter.project_slug }}
+WORKDIR /todo-api
 
 # Setup Permissions
 RUN groupadd -r fastapi && useradd -d /fastapi -r -g fastapi fastapi \
-  && chown fastapi:fastapi -R /{{ cookiecutter.project_slug }}
+  && chown fastapi:fastapi -R /todo-api
 
-COPY --chown=fastapi:fastapi . /{{ cookiecutter.project_slug }}/
+COPY --chown=fastapi:fastapi . /todo-api/
 
 USER fastapi
 

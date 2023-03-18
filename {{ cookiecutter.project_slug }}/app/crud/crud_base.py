@@ -1,13 +1,11 @@
-from typing import Generic, Type, TypeVar, cast
+from typing import Generic, Sequence, Type, TypeVar
 from uuid import UUID
 
+from app.db.base_class import Base
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy import delete, insert, select, update
-from sqlalchemy.engine import CursorResult
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -33,10 +31,8 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         **Returns**
         * A single record
         #"""
-        select_query = select([self.model]).where(self.model.id == id)
-        result = await db.execute(select_query)
-
-        return cast(ModelType | None, result.scalar())
+        select_query = select(self.model).where(self.model.id == id)
+        return (await db.scalars(select_query)).first()
 
     async def get_all(
         self,
@@ -44,7 +40,7 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         *,
         skip: int = 0,
         limit: int = 100,
-    ) -> list[ModelType]:
+    ) -> Sequence[ModelType]:
         """
         Get all records.
         **Parameters**
@@ -52,10 +48,8 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         **Returns**
         * A list of records
         """
-        select_query = select([self.model]).offset(skip).limit(limit)
-        result = await db.execute(select_query)
-
-        return result.scalars().all()
+        select_query = select(self.model).limit(limit).offset(skip)
+        return (await db.scalars(select_query)).all()
 
     async def create(self, db: AsyncSession, *, obj_in: CreateSchemaType) -> ModelType:
         """
@@ -67,13 +61,9 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         * A new record
         """
         obj_in_data = jsonable_encoder(obj_in)
-        result = await db.execute(insert(self.model).values(**obj_in_data))
+        result: ModelType = await db.scalar(insert(self.model).values(**obj_in_data))
 
-        if not isinstance(result, CursorResult):
-            raise Exception("Could not insert record")
-
-        await db.commit()
-        data = await self.get(db, result.inserted_primary_key[0])
+        data = await self.get(db, result.id)
 
         if not data:
             raise Exception("Could not get inserted record")
