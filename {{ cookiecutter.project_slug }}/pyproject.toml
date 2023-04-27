@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "todo-api"
+name = "{{ cookiecutter.project_name }}"
 version = "0.1.0"
-description = "A short description"
-authors = ["Alisson Lopez <alisson.hdz.lopez@hotmail.com>"]
+description = "{{ cookiecutter.project_description }}"
+authors = ["{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>",]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -11,7 +11,7 @@ fastapi = "^0.95.0"
 gunicorn = "^20.1.0"
 python-dotenv = "^1.0.0"
 alembic = "^1.10.2"
-SQLAlchemy = "^2.0.6"
+SQLAlchemy = "^2.0.7"
 asyncpg = "^0.27.0"
 httpx = "^0.23.3"
 orjson = "^3.8.7"
@@ -25,7 +25,7 @@ flake8 = "^6.0.0"
 autoflake = "^2.0"
 isort = "^5.12.0"
 pytest = "^7.2.2"
-pytest-asyncio = "^0.20.3"
+pytest-asyncio = "^0.21.0"
 types-tabulate = "^0.9.0"
 
 [tool.black]
