@@ -69,7 +69,7 @@ COPY --from=builder $POETRY_HOME $POETRY_HOME
 WORKDIR $PYSETUP_PATH
 RUN poetry install
 
-WORKDIR /todo-api
+WORKDIR /{{ cookiecutter.project_slug }}
 
 ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
 
@@ -77,13 +77,13 @@ ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
 # === Production Image ===
 FROM base as production
 
-WORKDIR /todo-api
+WORKDIR /{{ cookiecutter.project_slug }}
 
 # Setup Permissions
 RUN groupadd -r fastapi && useradd -d /fastapi -r -g fastapi fastapi \
-  && chown fastapi:fastapi -R /todo-api
+  && chown fastapi:fastapi -R /{{ cookiecutter.project_slug }}
 
-COPY --chown=fastapi:fastapi . /todo-api/
+COPY --chown=fastapi:fastapi . /{{ cookiecutter.project_slug }}/
 
 USER fastapi
 

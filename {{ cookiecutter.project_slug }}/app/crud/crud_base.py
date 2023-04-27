@@ -61,18 +61,19 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         * A new record
         """
         obj_in_data = jsonable_encoder(obj_in)
-        result: ModelType = await db.scalar(insert(self.model).values(**obj_in_data))
+        result = await db.scalar(
+            insert(self.model).values(**obj_in_data).returning(self.model)
+        )
+        await db.commit()
 
-        data = await self.get(db, result.id)
+        if not result:
+            raise Exception("Could not insert record")
 
-        if not data:
-            raise Exception("Could not get inserted record")
-
-        return data
+        return result
 
     async def update(
         self, db: AsyncSession, id: UUID, *, obj_in: UpdateSchemaType
-    ) -> None:
+    ) -> ModelType:
         """
         Update a record.
         **Parameters**
@@ -85,10 +86,17 @@ class CrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         update_data = obj_in.dict(exclude_unset=True)
 
         update_query = (
-            update(self.model).where(self.model.id == id).values(**update_data)
+            update(self.model)
+            .where(self.model.id == id)
+            .values(**update_data)
+            .returning(self.model)
         )
-        await db.execute(update_query)
-        await db.commit()
+        result = await db.scalar(update_query)
+
+        if not result:
+            raise Exception("Could not update record")
+
+        return result
 
     async def delete(self, db: AsyncSession, *, id: UUID) -> None:
         """
