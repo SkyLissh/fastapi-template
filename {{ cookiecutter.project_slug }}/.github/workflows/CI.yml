@@ -17,12 +17,12 @@ jobs:
       - name: Setup environment
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       - name: Setup poetry
         uses: abatilo/actions-poetry@v2.1.4
         with:
-          poetry-version: 1.1.13
+          poetry-version: 1.4.0
 
       - name: Install dependencies
         run: |
