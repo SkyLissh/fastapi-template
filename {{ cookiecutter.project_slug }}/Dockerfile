@@ -1,4 +1,4 @@
-FROM python:3.11.2-slim as python-base
+FROM python:3.12.0b2-slim as python-base
 
 ENV POETRY_VERSION=1.4.0 \
   POETRY_NO_INTERACTION=1 \
